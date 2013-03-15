@@ -1,7 +1,7 @@
 CC=clang
 CFLAGS=-c
 LDFLAGS=
-SOURCES=cluepill.c json.c args.c config.c util.c
+SOURCES=main.c json.c args.c config.c util.c
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=cluepill
 

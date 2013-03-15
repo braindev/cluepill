@@ -6,7 +6,7 @@
 /*
  * main function
  */
-int main(int argc, char** argv, char** envp) {
+int main(int argc, char** argv) {
   //daemonize();
 
   /*FILE *fp = NULL;*/
@@ -22,6 +22,7 @@ int main(int argc, char** argv, char** envp) {
     configuration* config = parse_config(config_file);
   } else {
     fprintf(stderr, "Error: no configuration file specified? (see -c flag)\n");
+    return -1;
   }
 
   return 0;
