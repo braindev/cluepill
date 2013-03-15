@@ -34,6 +34,8 @@ configuration* parse_config(char* config_file) {
       process_config->cd = strdup(value_for_key(jv_processes->u.array.values[i], "cd")->u.string.ptr);
       process_config->exec = strdup(value_for_key(jv_processes->u.array.values[i], "exec")->u.string.ptr);
       process_config->pid_file = strdup(value_for_key(jv_processes->u.array.values[i], "pid_file")->u.string.ptr);
+      process_config->stderr_file = strdup(value_for_key(jv_processes->u.array.values[i], "stderr_file")->u.string.ptr);
+      process_config->stdout_file = strdup(value_for_key(jv_processes->u.array.values[i], "stdout_file")->u.string.ptr);
       json_str = value_for_key(jv_processes->u.array.values[i], "start");
       process_config->start = json_str->u.boolean ? 1 : 0;
       process_args = value_for_key(jv_processes->u.array.values[i], "args");

@@ -14,6 +14,8 @@ typedef struct {
   char** args;
   unsigned char start;
   char* pid_file;
+  char* stdout_file;
+  char* stderr_file;
   void* next_process;
 } process_configuration;
 

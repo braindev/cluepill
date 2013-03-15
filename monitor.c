@@ -50,7 +50,10 @@ int spawn_process(process_configuration *p_config) {
     if(sid < 0) {
       exit(1);
     }
-    close(STDIN_FILENO); close(STDOUT_FILENO); close(STDERR_FILENO);
+    //close(STDIN_FILENO); close(STDOUT_FILENO); close(STDERR_FILENO);
+    freopen(p_config->stdout_file, "a", stdout);
+    freopen(p_config->stderr_file, "a", stderr);
+    close(STDIN_FILENO);
     chdir("/");
     pid2 = fork();
     if (pid2 == -1) {
