@@ -12,7 +12,6 @@ typedef struct {
   char* cd;
   char* exec;
   char** args;
-  int argc;
   unsigned char start;
   char* pid_file;
   void* next_process;

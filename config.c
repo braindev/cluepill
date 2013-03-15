@@ -2,10 +2,12 @@
 #include "util.h"
 
 /*
- *
+ * parse and return the configuration given the path to a json configuration file
  */
 configuration* parse_config(char* config_file) {
   int i, j;
+  process_configuration *previous_process_config = NULL, *process_config = NULL;
+
   char* config_str = read_file(config_file);
   if (config_str == NULL) {
     return NULL;
@@ -19,7 +21,6 @@ configuration* parse_config(char* config_file) {
 
   json_value* jv_log = value_for_key(jv, "log");
   if (jv_log && jv_log->type == json_string) {
-    printf("log file: %s\n", jv_log->u.string.ptr);
     config->log = strdup(jv_log->u.string.ptr);
   }
 
@@ -28,33 +29,40 @@ configuration* parse_config(char* config_file) {
   json_value* process_args;
   if (jv_processes && jv_processes->type == json_array) {
     for(i=0; i<jv_processes->u.array.length; i++) {
-      json_str = value_for_key(jv_processes->u.array.values[i], "name");
-      printf("process name: %s\n", json_str->u.string.ptr);
-      json_str = value_for_key(jv_processes->u.array.values[i], "cd");
-      printf("process cd: %s\n", json_str->u.string.ptr);
-      json_str = value_for_key(jv_processes->u.array.values[i], "exec");
-      printf("process exec: %s\n", json_str->u.string.ptr);
+      process_config = calloc(sizeof(process_configuration), 1);
+      process_config->name =  strdup(value_for_key(jv_processes->u.array.values[i], "name")->u.string.ptr);
+      process_config->cd = strdup(value_for_key(jv_processes->u.array.values[i], "cd")->u.string.ptr);
+      process_config->exec = strdup(value_for_key(jv_processes->u.array.values[i], "exec")->u.string.ptr);
+      process_config->pid_file = strdup(value_for_key(jv_processes->u.array.values[i], "pid_file")->u.string.ptr);
       json_str = value_for_key(jv_processes->u.array.values[i], "start");
-      printf("process start: %s\n", json_str->u.boolean ? "yes" : "no");
+      process_config->start = json_str->u.boolean ? 1 : 0;
       process_args = value_for_key(jv_processes->u.array.values[i], "args");
       if (process_args && process_args->type == json_array) {
-        printf("process args:\n");
+        process_config->args = malloc((sizeof(char *) * process_args->u.array.length) + 1);
+        process_config->args[process_args->u.array.length + 1] = NULL;
         for(j=0; j<process_args->u.array.length; j++) {
-          json_str = process_args->u.array.values[j];
-          printf("  %s\n", json_str->u.string.ptr);
+          process_config->args[j] = strdup(process_args->u.array.values[j]->u.string.ptr);
         }
       }
-      printf("\n");
+      if (previous_process_config) {
+        previous_process_config->next_process = process_config;
+      } else {
+        config->process_config = process_config;
+      }
+      previous_process_config = process_config;
     }
+  } else {
+    return NULL;
   }
 
   free(config_str);
+  json_value_free(jv);
 
   return config;
 }
 
 /*
- *
+ * returns the json object for a given string key
  */
 json_value *value_for_key(json_value* jo, char* key) {
   int i;
