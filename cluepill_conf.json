@@ -1,0 +1,22 @@
+{
+  "log": "/var/log/cluepill.log",
+  "processes": [
+    {
+      "name": "foo",
+      "cd": "/foo/bar",
+      "exec": "foo",
+      "args": [
+        "-a foo",
+        "-b bar"
+      ],
+      "start": true
+    },
+    {
+      "name": "bar",
+      "cd": "/foo/bar",
+      "exec": "bar",
+      "args": [],
+      "start": false
+    }
+  ]
+}
