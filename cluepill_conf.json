@@ -9,14 +9,16 @@
         "-a foo",
         "-b bar"
       ],
-      "start": true
+      "start": true,
+      "pid_file": "/var/pids/foo.pid"
     },
     {
       "name": "bar",
       "cd": "/foo/bar",
       "exec": "bar",
       "args": [],
-      "start": false
+      "start": false,
+      "pid_file": "/var/pids/bar.pid"
     }
   ]
 }
