@@ -1,0 +1,18 @@
+{
+  "log": "/var/log/cluepill.log",
+  "processes": [
+    {
+      "name": "server",
+      "cd": "/Users/bjohnson/Desktop",
+      "exec": "node",
+      "args": [
+        "node",
+        "server.js"
+      ],
+      "start": true,
+      "pid_file": "/Users/bjohnson/Desktop/server.pid",
+      "stdout": "/Users/bjohnson/Desktop/server.stdout",
+      "stderr": "/Users/bjohnson/Desktop/server.stderr"
+    }
+  ]
+}

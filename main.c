@@ -2,6 +2,7 @@
 
 #include "args.h"
 #include "config.h"
+#include "monitor.h"
 
 /*
  * main function
@@ -42,6 +43,8 @@ int main(int argc, char** argv) {
     printf("\n");
     p_config = p_config->next_process;
   }
+
+  monitor_processes(config);
 
   return 0;
 }
